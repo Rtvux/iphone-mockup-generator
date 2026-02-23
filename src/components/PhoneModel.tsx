@@ -22,10 +22,14 @@ const UV_V_MAX = 0.601318;
 const UV_U_RANGE = UV_U_MAX - UV_U_MIN; // 0.339
 const UV_V_RANGE = UV_V_MAX - UV_V_MIN; // 0.162
 
+// Use a smaller texture on mobile to avoid GPU memory crashes
+const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+const TEX_SIZE = isMobile ? 2048 : 8192;
+
 /**
- * Paint the user's image onto a 2048×2048 canvas at the exact pixel region
+ * Paint the user's image onto the canvas at the exact pixel region
  * the screen mesh UVs sample, rotated 90° CW so it appears upright.
- * Uses "object-fit: cover; object-position: center" semantics.
+ * Uses "object-fit: contain; object-position: center" semantics.
  */
 function applyScreenTexture(
   mat: THREE.MeshStandardMaterial,
@@ -34,7 +38,6 @@ function applyScreenTexture(
   mat.map?.dispose();
   mat.emissiveMap?.dispose();
 
-  const TEX_SIZE = 8192;
   const canvas = document.createElement('canvas');
   canvas.width = TEX_SIZE;
   canvas.height = TEX_SIZE;
@@ -45,13 +48,13 @@ function applyScreenTexture(
   // Screen mesh samples u∈[U_MIN,U_MAX] (height) × v∈[V_MIN,V_MAX] (width)
   const regionX = UV_U_MIN * TEX_SIZE;
   const regionY = UV_V_MIN * TEX_SIZE;
-  const regionW = UV_U_RANGE * TEX_SIZE; // ~694px → screen HEIGHT
-  const regionH = UV_V_RANGE * TEX_SIZE; // ~332px → screen WIDTH
+  const regionW = UV_U_RANGE * TEX_SIZE;
+  const regionH = UV_V_RANGE * TEX_SIZE;
 
   // After 90° CW rotation: img height→regionW, img width→regionH
   const scaleX = regionW / img.naturalHeight;
   const scaleY = regionH / img.naturalWidth;
-  const scale = Math.min(scaleX, scaleY); // contain — show full image, no crop
+  const scale = Math.min(scaleX, scaleY);
 
   const drawW = img.naturalWidth * scale;
   const drawH = img.naturalHeight * scale;
@@ -59,9 +62,6 @@ function applyScreenTexture(
   const cx = regionX + regionW / 2;
   const cy = regionY + regionH / 2;
 
-  // On canvas (flipY=false): x-right = phone-up, y-down = phone-left.
-  // V increases right→left on the phone, so we need a mirror to compensate.
-  // Transform: rotate 90° CW + mirror local X axis.
   ctx.save();
   ctx.translate(cx, cy);
   ctx.rotate(Math.PI / 2);
@@ -74,7 +74,7 @@ function applyScreenTexture(
   tex.colorSpace = THREE.SRGBColorSpace;
   tex.minFilter = THREE.LinearMipmapLinearFilter;
   tex.magFilter = THREE.LinearFilter;
-  tex.anisotropy = 16;
+  tex.anisotropy = isMobile ? 4 : 16;
   tex.needsUpdate = true;
 
   mat.map = tex;

@@ -37,7 +37,7 @@ export default function PhoneScene({ screenshotUrl, canvasRef, backgroundEnabled
       <Canvas
         gl={{ preserveDrawingBuffer: true, alpha: true }}
         camera={{ position: [0, 0, 7], fov: 35 }}
-        dpr={2}
+        dpr={/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ? 1.5 : 2}
         onCreated={onCanvasCreated}
       >
         <SceneBackground enabled={backgroundEnabled} gradientId={gradientId} />
