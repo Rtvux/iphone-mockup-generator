@@ -65,3 +65,23 @@
 .hidden {
   display: none;
 }
+
+@media (max-width: 680px) {
+  .uploadArea {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .label {
+    font-size: 11px;
+  }
+
+  .filename {
+    font-size: 11px;
+    max-width: 100px;
+  }
+
+  .clearButton {
+    font-size: 10px;
+  }
+}
