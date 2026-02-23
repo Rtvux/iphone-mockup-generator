@@ -1,0 +1,10 @@
+.canvasContainer {
+  position: absolute;
+  inset: 0;
+  background: #0e0e0f;
+  cursor: grab;
+}
+
+.canvasContainer:active {
+  cursor: grabbing;
+}

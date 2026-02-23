@@ -1,0 +1,27 @@
+.exportButton {
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #000;
+  background: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.exportButton:hover:not(:disabled) {
+  background: #e0e0e0;
+}
+
+.exportButton:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.exporting {
+  opacity: 0.7;
+  cursor: wait;
+}
