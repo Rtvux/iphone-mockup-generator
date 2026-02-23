@@ -22,11 +22,6 @@ const UV_V_MAX = 0.601318;
 const UV_U_RANGE = UV_U_MAX - UV_U_MIN; // 0.339
 const UV_V_RANGE = UV_V_MAX - UV_V_MIN; // 0.162
 
-// Physical screen dimensions in mesh-local coords
-const SCREEN_W = 76.414;  // X range
-const SCREEN_H = 159.514; // Z range
-const SCREEN_AR = SCREEN_W / SCREEN_H; // ≈ 0.479
-
 /**
  * Paint the user's image onto a 2048×2048 canvas at the exact pixel region
  * the screen mesh UVs sample, rotated 90° CW so it appears upright.
@@ -90,7 +85,7 @@ function applyScreenTexture(
 }
 
 export default function PhoneModel({ screenshotUrl }: PhoneModelProps) {
-  const { nodes, materials } = useGLTF('/iphone17.glb') as GLTFResult;
+  const { nodes, materials } = useGLTF('/iphone17.glb') as unknown as GLTFResult;
 
   const screenMat = useMemo(() => {
     const mat = materials.Screen_BG.clone();
