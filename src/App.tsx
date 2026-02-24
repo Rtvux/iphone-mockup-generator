@@ -6,10 +6,13 @@ import BackgroundToggle from './components/BackgroundToggle';
 import GradientPicker from './components/GradientPicker';
 import styles from './App.module.css';
 
+const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
 export default function App() {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [backgroundEnabled, setBackgroundEnabled] = useState(false);
   const [selectedGradient, setSelectedGradient] = useState('sakura');
+  const [bannerDismissed, setBannerDismissed] = useState(false);
   const mockupRef = useRef<HTMLCanvasElement>(null);
 
   const toggleBackground = useCallback(() => {
@@ -18,6 +21,15 @@ export default function App() {
 
   return (
     <div className={styles.app}>
+      {isMobile && !bannerDismissed && (
+        <div className={styles.mobileBanner}>
+          <span>For the best experience, use this tool on a desktop browser.</span>
+          <button className={styles.bannerDismiss} onClick={() => setBannerDismissed(true)}>
+            Got it
+          </button>
+        </div>
+      )}
+
       <PhoneScene
         screenshotUrl={uploadedImage}
         canvasRef={mockupRef}
