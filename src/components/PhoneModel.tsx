@@ -22,9 +22,9 @@ const UV_V_MAX = 0.601318;
 const UV_U_RANGE = UV_U_MAX - UV_U_MIN; // 0.339
 const UV_V_RANGE = UV_V_MAX - UV_V_MIN; // 0.162
 
-// Use a smaller texture on mobile to avoid GPU memory crashes
+// 4096 on mobile (64MB GPU) vs 8192 on desktop (256MB GPU)
 const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-const TEX_SIZE = isMobile ? 2048 : 8192;
+const TEX_SIZE = isMobile ? 4096 : 8192;
 
 /**
  * Paint the user's image onto the canvas at the exact pixel region
@@ -74,7 +74,7 @@ function applyScreenTexture(
   tex.colorSpace = THREE.SRGBColorSpace;
   tex.minFilter = THREE.LinearMipmapLinearFilter;
   tex.magFilter = THREE.LinearFilter;
-  tex.anisotropy = isMobile ? 4 : 16;
+  tex.anisotropy = isMobile ? 8 : 16;
   tex.needsUpdate = true;
 
   mat.map = tex;
