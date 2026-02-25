@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a1e"/>
+      <stop offset="100%" stop-color="#0e0e0f"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F9C5D1"/>
+      <stop offset="100%" stop-color="#7B6BA8"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="108" fill="url(#bg)"/>
+  <!-- Phone body -->
+  <rect x="170" y="72" width="172" height="368" rx="28" fill="none" stroke="#ffffff" stroke-width="14"/>
+  <!-- Screen with gradient -->
+  <rect x="186" y="104" width="140" height="304" rx="12" fill="url(#screen)" opacity="0.85"/>
+  <!-- Notch -->
+  <rect x="224" y="80" width="64" height="8" rx="4" fill="#ffffff" opacity="0.35"/>
+</svg>
